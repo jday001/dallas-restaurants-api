@@ -1,10 +1,10 @@
-import FluentSQLite
 import Vapor
+import MySQL
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     // Register providers first
-    try services.register(FluentSQLiteProvider())
+    try services.register(MySQLProvider())
 
     // Register routes to the router
     let router = EngineRouter.default()
@@ -17,16 +17,17 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
 
-    // Configure a SQLite database
-    let sqlite = try SQLiteDatabase(storage: .memory)
-
-    // Register the configured SQLite database to the database config.
+    // Configure a MySQL database
+    let config = MySQLDatabaseConfig(hostname: "restaurants.cwcdecr5dmlx.us-east-2.rds.amazonaws.com",
+                                     port: 3306,
+                                     username: "admin",
+                                     password: "cbrehost",
+                                     database: "restaurants")
+    
+    let mySQL = MySQLDatabase(config: config)
+    
+    // Register the configured MySQL database to the database config.
     var databases = DatabasesConfig()
-    databases.add(database: sqlite, as: .sqlite)
+    databases.add(database: mySQL, as: .mysql)
     services.register(databases)
-
-    // Configure migrations
-    var migrations = MigrationConfig()
-    migrations.add(model: Todo.self, database: .sqlite)
-    services.register(migrations)
 }
