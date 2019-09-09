@@ -21,7 +21,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     let config = MySQLDatabaseConfig(hostname: "restaurants.cwcdecr5dmlx.us-east-2.rds.amazonaws.com",
                                      port: 3306,
                                      username: "admin",
-                                     password: "cbrehost",
+                                     password: "wrongpw",
                                      database: "restaurants")
     
     let mySQL = MySQLDatabase(config: config)
