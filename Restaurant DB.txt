@@ -1,0 +1,138 @@
+CREATE DATABASE IF NOT EXISTS restaurants;
+
+use restaurants;
+
+DROP TABLE IF EXISTS city;
+DROP TABLE IF EXISTS state;
+DROP TABLE IF EXISTS restaurantcategory;
+DROP TABLE IF EXISTS restaurant;
+
+CREATE TABLE city(
+	id varchar(36),
+	name varchar(100),
+	PRIMARY KEY (id)
+) ENGINE=innodb COLLATE utf8_unicode_ci;
+
+CREATE TABLE state(
+	id varchar(36),
+	abbreviation varchar(2),
+	name varchar (100),
+	PRIMARY KEY (id)
+) ENGINE=innodb COLLATE utf8_unicode_ci;
+
+CREATE TABLE restaurantcategory(
+	id tinyint,
+	name varchar(100),
+	PRIMARY KEY (id)
+) ENGINE=innodb COLLATE utf8_unicode_ci;
+
+CREATE TABLE restaurant(
+	id varchar(36) NOT NULL,
+	name varchar(255),
+	categoryId tinyint,
+	description varchar(255),
+	openTime varchar(10),
+	closeTime varchar(10),
+	streetAddress varchar(255),
+	cityId varchar(36),
+	stateId varchar(36),
+	postalCode varchar(5),
+	phoneNumber varchar(20),
+	goodFor varchar(255),
+	imageUrl varchar(255),
+	websiteUrl varchar(255),
+	latitude decimal(10,6),
+	longitude decimal(10,6),
+	PRIMARY KEY (id),
+	FOREIGN KEY (categoryId)
+	    REFERENCES restaurantcategory(id),
+	FOREIGN KEY (cityId)
+	    REFERENCES city(id),
+	FOREIGN KEY (stateId)
+	    REFERENCES state(id)
+) ENGINE=innodb COLLATE utf8_unicode_ci;
+
+--------------------------------------------
+
+INSERT INTO state(id, abbreviation, name) VALUES('e74f8fac-cddd-11e9-b81b-41a67f872730', 'TX', 'Texas');
+INSERT INTO city(id, name) VALUES('ff5b24e4-cddd-11e9-b81b-41a67f872730', 'Dallas');
+
+INSERT INTO restaurantcategory(id, name) VALUES(0, 'Burgers');
+INSERT INTO restaurantcategory(id, name) VALUES(1, 'Pizza');
+INSERT INTO restaurantcategory(id, name) VALUES(2, 'Italian');
+INSERT INTO restaurantcategory(id, name) VALUES(3, 'American');
+INSERT INTO restaurantcategory(id, name) VALUES(4, 'Healthy');
+INSERT INTO restaurantcategory(id, name) VALUES(5, 'Fine Dining');
+INSERT INTO restaurantcategory(id, name) VALUES(6, 'Sushi');
+INSERT INTO restaurantcategory(id, name) VALUES(7, 'Mexican');
+INSERT INTO restaurantcategory(id, name) VALUES(8, 'Cajun');
+INSERT INTO restaurantcategory(id, name) VALUES(9, 'Ramen');
+
+--------------------------------------------
+
+Dallas: 'ff5b24e4-cddd-11e9-b81b-41a67f872730'
+Texas: 'e74f8fac-cddd-11e9-b81b-41a67f872730'
+
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, city, state, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'name', categoryId, 'description', 'openTime', 'closeTime', 'address', cityId, stateId, 'postCode', 'phoneNumber', 'goodFor', 'imageUrl', 'websiteUrl', latitude, longitude);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Liberty Burger', 0, 'Local chain outpost supplying high-end burgers plus salads & sides in spare but stylish digs.', '11AM', '9PM', '1904 Abrams Pkwy', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75214', '(214) 887-9999', 'Comfort food,Outdoor seating,Quick bite', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b13a2-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.givemelibertyburger.com', 32.813099, -96.752351);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Wabi House', 9, 'Ramen & izakaya-style Japanese dishes, plus sake & cocktails, are served in industrial-chic digs.', '5PM', '10PM', '1802 Greenville Ave #100', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(469) 779-6474', 'Happy hour food,Late-night food,Comfort food', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b1622-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.wabihouse.com', 32.812279, -96.769980);
+
+INSERT INTO restaurant(id, name, categoryId, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Ozona Grill and Bar', 3, '11AM', '11PM', '4615 Greenville Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(214) 265-9105', 'Happy hour food,Late-night food,Happy hour drinks', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b1870-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.ozonagrill.com', 32.843549, -96.770859);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'The Rustic', 3, 'Down-home venue with locally sourced American eats, Texas brews & an outdoor patio with live music.', '6PM', '11PM', '3656 Howell St', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75204', '(214) 730-0596', 'Happy hour food,Late-night food,Happy hour drinks', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b19ce-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.therustic.com', 32.804906, -96.794233);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'HG Sply Co.', 3, 'American meals, craft beers & cocktails in a rustic-chic locale with a rooftop patio.', '3PM', '5PM', '2008 Greenville Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(469) 334-0896', 'Happy hour food,Late-night food,Comfort food', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b1b2c-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.hgsplyco.com', 32.814183, -96.769869);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'The Heights', 3, 'From-scratch American kitchen, coffee shop & cocktail bar with a comfy tavern vibe & takeout.', '5PM', '11PM', '2015 Abrams Pkwy', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75214', '(214) 824-5800', 'Happy hour food,Late-night food,Comfort food', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b1c62-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.theheightslakewood.com', 32.814375, -96.753187);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Grimaldi''s Pizzeria', 1, 'Casual, Brooklyn-based pizzeria chain serving brick-oven pies & calzones plus wine & beer.', '11AM', '9PM', '3636 McKinney Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75204', '(214) 559-4611', 'Pizza,Happy hour food,Late-night food', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b1d8e-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.grimadispizzeria.com', 32.807094, -96.796204);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Unleavened Fresh Kitchen', 4, 'Casual neighborhood cafe with a patio offering, refined, health-conscious wraps & salads.', '10AM', '3PM', '1900 Abrams Pkwy', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75214', '(214) 828-8700', 'Comfort food,Outdoor seating,Quick bite', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b1ec4-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.unleavened.com', 32.812852, -96.752519);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Fearing''s Restaurant', 5, 'Chef Dean Fearing''s splashy Southwestern destination with a celebrated bar in the luxe Ritz-Carlton.', '5PM', '11PM', '2121 McKinney Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75201', '(214) 922-4848', 'Cocktails,Small Plates,Wine', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2004-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.fearingsrestaurant.com', 32.792155, -96.803527);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Uchi', 6, 'Sleek destination offering a menu of modern Japanese cuisine, known for its cooked seafood & sushi.', '5PM', '11PM', '2817 Maple Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75201', '(214) 855-5454', 'Cocktails,Small Plates,Wine', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2130-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.uchidallas.com', 32.796941, -96.806434);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Deep Sushi', 6, 'Veteran Japanese eatery with specialty rolls, happy hour & lunch deals in modern digs with a patio.', '5PM', '10PM', '2624 Elm St', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75226', '(214) 651-1177', 'Small Plates,Alcohol,Quick bite', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b225c-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.deepsushi.com', 32.784182, -96.785582);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Terilli''s', 2, 'Down-to-earth Italian fare shares the spotlight with martinis & live jazz in a funky ambience.', '5PM', '11PM', '2815 Greenville Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(214) 827-3993', 'Dinner,Lunch,Solo dining', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2388-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.terillis.com', 32.823038, -96.770299);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Blue Goose Cantina', 7, 'Lively local cantina chain serving mesquite-grilled Tex-Mex fare, beer & margaritas.', '11AM', '10PM', '2905 Greenville Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(214) 823-8339', 'Happy hour food,Cocktails,Kids'' Menu', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b24be-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.bluegoosecantina.com', 32.823673, -96.770400);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Manny''s Uptown', 7, 'Laid-back eatery in a colorful space featuring cocktails & traditional Mexican & Tex-Mex meals.', '12PM', '10PM', '3521 Oak Grove Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75204', '(214) 252-1616', 'Quick bite,Kids'' menu,Dessert', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b25e0-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.mannysuptowntexmex.com', 32.805546, -96.796374);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Charlie''s Creole Kitchen', 8, 'The original of a local chain serves New Orleans-style fare in a casual cafe & bar with memorabilia.', '3PM', '10PM', '2129 Greenville Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(214) 821-8890', 'Happy hour food,Quick bite,Beer', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2716-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.charliescreolekitchen.com', 32.816139, -96.77052);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Campisi''s', 2, 'Long-standing Italian chain restaurant serving thin-crust pizza & classic fare. Delivery available.', '11AM', '11PM', '5610 E Mockingbird Ln', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(214) 827-0355', 'Comfort food,Kid''s menu,Wine', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b284c-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.campisis.us', 32.836235, -96.771687);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Louie''s', 1, 'Old-school hangout serving up beer, cocktails & thin-crust pizza in a casual, no-nonsense setting.', '5:30PM', '11PM', '1839 N Henderson Ave', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75206', '(214) 826-0505', 'Food at bar,Martinis,Wine', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2982-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.louiesdallas.com', 32.811141, -96.774438);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Lounge Here', 3, 'Swanky neighborhood joint focusing on house cocktails & food from a small but well-appointed menu.', '3PM', '11:30PM', '9028 Garland Road', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75218', '(214) 238-3374', 'Happy hour drinks,Food,Cocktails', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2aae-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.theloungehere.com', 32.827742, -96.708873);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Ida Claire', 3, 'Genteel choice for updated/international takes on traditional Southern dishes & cocktails.', '8AM', '10:30PM', '5001 Belt Line Rd', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75254', '(214) 377-8227', 'Brunch,Comfort food,Kid''s menu', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2bda-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.ida-claire.com', 32.954484, -96.825875);
+
+INSERT INTO restaurant(id, name, categoryId, description, openTime, closeTime, streetAddress, cityId, stateId, postalCode, phoneNumber, goodFor, imageUrl, websiteUrl, latitude, longitude)
+VALUES(uuid(), 'Goodfriend Beer Garden & Burger House', 0, 'Bustling joint with a patio offering specialty burgers, creative sides & a vast selection of beer.', '11:30AM', '11PM', '1154 Peavy Rd', 'ff5b24e4-cddd-11e9-b81b-41a67f872730', 'e74f8fac-cddd-11e9-b81b-41a67f872730', '75218', '(214) 324-3335', 'Beer,Burgers,Kids'' menu', 'https://dallas-restaurants.s3.us-east-2.amazonaws.com/fd7b2d10-ce94-11e9-a32f-2a2ae2dbcce4.png', 'https://www.goodfrienddallas.com', 32.839500, -96.696723);
